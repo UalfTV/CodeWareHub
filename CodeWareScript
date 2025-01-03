@@ -1,0 +1,250 @@
+local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
+
+local function createLoaderGui()
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "LoaderGUI"
+    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local frame = Instance.new("Frame")
+    frame.Parent = gui
+    frame.Size = UDim2.new(0, 400, 0, 350)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -175)
+    frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    frame.ClipsDescendants = true
+
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.Parent = frame
+    uiCorner.CornerRadius = UDim.new(0, 10)
+
+    local function createLabel(name, pos, text, textSize, textColor)
+        local label = Instance.new("TextLabel")
+        label.Name = name
+        label.Parent = frame
+        label.Size = UDim2.new(0.9, 0, 0, 40)
+        label.Position = pos
+        label.Text = text
+        label.TextColor3 = textColor or Color3.fromRGB(255, 255, 255)
+        label.BackgroundTransparency = 1
+        label.Font = Enum.Font.GothamSemibold
+        label.TextSize = textSize or 16
+        label.AnchorPoint = Vector2.new(0.5, 0)
+
+        return label
+    end
+
+    local labels = {
+        title = createLabel("TitleLabel", UDim2.new(0.5, 0, 0.05, 0), "Enter Password", 24, Color3.fromRGB(255, 255, 255)),
+        status = createLabel("StatusLabel", UDim2.new(0.5, 0, 0.25, 0), "Status: Waiting...", 16, Color3.fromRGB(255, 255, 255)),
+        executor = createLabel("ExecutorLabel", UDim2.new(0.5, 0, 0.35, 0), "Executor: Checking...", 16, Color3.fromRGB(255, 255, 255)),
+        platform = createLabel("PlatformLabel", UDim2.new(0.5, 0, 0.45, 0), "Platform: Checking...", 16, Color3.fromRGB(255, 255, 255))
+    }
+
+    return labels, frame, gui
+end
+
+local function createMainGui()
+    local Window = OrionLib:MakeWindow({
+        Name = "CodeWare Hub",
+        HidePremium = false,
+        SaveConfig = true,
+        ConfigFolder = "CodeWareHub"
+    })
+
+    local function addButton(tab, name, url)
+        tab:AddButton({
+            Name = name,
+            Callback = function()
+                local success, errorMessage = pcall(function()
+                    loadstring(game:HttpGet(url))()
+                end)
+                if not success then
+                    OrionLib:MakeNotification({
+                        Name = "Error",
+                        Content = "Failed to execute script: " .. errorMessage,
+                        Image = "rbxassetid://4483345998",
+                        Time = 5
+                    })
+                end
+            end
+        })
+    end
+
+    local TabUA = Window:MakeTab({
+        Name = "Aimbot & ESP",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabUA, "Universal Aimbot & ESP", "https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt")
+
+    local TabKAT = Window:MakeTab({
+        Name = "KAT",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabKAT, "KAT Script", "https://raw.githubusercontent.com/scripter1cursed1rade/BelugaWare-1.4/main/belugaware.lua")
+
+    local TabJailBreak = Window:MakeTab({
+        Name = "JailBreak",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabJailBreak, "Auto Rob", "http://scripts.projectauto.xyz/AutoRobV5")
+
+    local TabBasketball = Window:MakeTab({
+        Name = "Basketball Legends",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabBasketball, "Basketball Legends Script", "https://scriptblox.com/raw/Universal-Script-Luminosity-Hub-KEYLESS-24039")
+
+    local TabBedWars = Window:MakeTab({
+        Name = "BedWars",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabBedWars, "BedWars Script", "https://raw.githubusercontent.com/cocotv666/Aurora/main/Aurora_Loader")
+
+    local TabChatbot = Window:MakeTab({
+        Name = "Chatbot",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    addButton(TabChatbot, "Chatbot (Key)", "https://raw.githubusercontent.com/Guerric9018/chatbothub/main/ChatbotHub.lua")
+
+    OrionLib:Init()
+end
+
+local function verifyPassword(frame, gui, password)
+    local keyBox = Instance.new("TextBox")
+    keyBox.Parent = frame
+    keyBox.Size = UDim2.new(0.9, 0, 0, 40)
+    keyBox.Position = UDim2.new(0.5, 0, 0.6, 0)
+    keyBox.PlaceholderText = "Enter Password"
+    keyBox.Text = ""
+    keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    keyBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    keyBox.Font = Enum.Font.GothamSemibold
+    keyBox.TextSize = 16
+    keyBox.AnchorPoint = Vector2.new(0.5, 0)
+
+    local corner = Instance.new("UICorner")
+    corner.Parent = keyBox
+    corner.CornerRadius = UDim.new(0, 6)
+
+    local button = Instance.new("TextButton")
+    button.Parent = frame
+    button.Size = UDim2.new(0.9, 0, 0, 40)
+    button.Position = UDim2.new(0.5, 0, 0.75, 0)
+    button.Text = "Submit"
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.Font = Enum.Font.GothamSemibold
+    button.TextSize = 16
+    button.AnchorPoint = Vector2.new(0.5, 0)
+
+    local buttonCorner = Instance.new("UICorner")
+    buttonCorner.Parent = button
+    buttonCorner.CornerRadius = UDim.new(0, 6)
+
+    local function checkPassword()
+        if keyBox.Text == password then
+            keyBox.TextColor3 = Color3.fromRGB(46, 213, 115)
+            keyBox.Text = "Access Granted"
+
+            -- Cerrar el loader y cargar el hub
+            gui:Destroy()
+            createMainGui()
+        else
+            keyBox.TextColor3 = Color3.fromRGB(255, 88, 88)
+            keyBox.Text = "Access Denied"
+        end
+    end
+
+    button.MouseButton1Click:Connect(checkPassword)
+end
+
+local function detectExecutor()
+    local executorChecks = {
+        ["Synapse X"] = function() 
+            return syn and syn.request and identifyexecutor and identifyexecutor():find("Synapse") 
+        end,
+        ["Script-Ware"] = function() 
+            return getexecutorname and getexecutorname():find("Script") 
+        end,
+        ["KRNL"] = function() 
+            return getexecutorname and getexecutorname():find("KRNL") 
+        end,
+        ["Fluxus"] = function() 
+            return fluxus and identifyexecutor and identifyexecutor():find("Fluxus") 
+        end,
+        ["Oxygen U"] = function() 
+            return getexecutorname and getexecutorname():find("Oxygen") 
+        end,
+        ["Solara"] = function() 
+            return identifyexecutor and identifyexecutor():find("Solara") 
+        end,
+        ["Nihon"] = function() 
+            return identifyexecutor and identifyexecutor():find("Nihon") 
+        end,
+        ["Wave"] = function() 
+            return identifyexecutor and identifyexecutor():find("Wave") 
+        end
+    }
+    
+    for name, check in pairs(executorChecks) do
+        local success, result = pcall(check)
+        if success and result then
+            return name, true
+        end
+    end
+    
+    return "Unknown Executor", false
+end
+
+local function detectPlatform()
+    local checks = {
+        ["PC"] = function()
+            return not game:GetService("GuiService"):IsTenFootInterface()
+        end,
+        ["Mobile"] = function()
+            return game:GetService("UserInputService").TouchEnabled
+        end,
+        ["Console"] = function()
+            return game:GetService("GuiService"):IsTenFootInterface()
+        end,
+        ["VR"] = function()
+            return game:GetService("UserInputService").VREnabled
+        end
+    }
+    
+    for platform, check in pairs(checks) do
+        local success, result = pcall(check)
+        if success and result then
+            return platform
+        end
+    end
+    
+    return "Unknown"
+end
+
+local correctPassword = "CodeWareOnTop!"
+local labels, frame, gui = createLoaderGui()
+verifyPassword(frame, gui, correctPassword)
+
+task.spawn(function()
+    wait(1)
+    
+    -- Actualizar estado del ejecutor
+    local executorName, isSupported = detectExecutor()
+    labels.executor.Text = string.format("Executor: %s", executorName)
+    labels.executor.TextColor3 = isSupported and Color3.fromRGB(46, 213, 115) or Color3.fromRGB(255, 88, 88)
+    
+    -- Actualizar estado de la plataforma
+    local platform = detectPlatform()
+    labels.platform.Text = string.format("Platform: %s", platform)
+    labels.platform.TextColor3 = platform == "PC" and Color3.fromRGB(46, 213, 115) or Color3.fromRGB(255, 88, 88)
+    
+    -- Actualizar estado general
+    labels.status.Text = "Status: Active"
+    labels.status.TextColor3 = Color3.fromRGB(46, 213, 115)
+end)
