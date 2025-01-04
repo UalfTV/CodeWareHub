@@ -48,7 +48,7 @@ addButton(TabAllGames, "Evade2", "https://raw.githubusercontent.com/zReal-King/E
 addButton(TabAllGames, "BloxFruits (OP)", "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI")
 addButton(TabAllGames, "Da Hood", "https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002")
 addButton(TabAllGames, "Fling Things and People", "https://raw.githubusercontent.com/BlizTBr/scripts/main/FTAP.lua")
-addButton(TabAllGames, "3008", "https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/SkyHub.txt")
+addButton(TabAllGames, "3008 (keyless)", "https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/SCP3008.py")
 addButton(TabAllGames, "Item Asylum", "https://pastebin.com/raw/TwXsMX4S")
 addButton(TabAllGames, "Doors", "https://raw.githubusercontent.com/Yumiara/Python/main/Main.lua")
 addButton(TabAllGames, "PS99", "https://zaphub.xyz/Exec")
