@@ -1,0 +1,58 @@
+-- Main GUI using Rayfield
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "CodeWare Hub",
+    LoadingTitle = "Loading CodeWare Hub...",
+    LoadingSubtitle = "Please wait",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "CodeWareHub",
+        FileName = "HubConfig"
+    }
+})
+
+local TabAllGames = Window:CreateTab("All Games", 4483345998)
+
+local function addButton(tab, name, url)
+    tab:CreateButton({
+        Name = name,
+        Callback = function()
+            local success, errorMessage = pcall(function()
+                local scriptContent = game:HttpGet(url)
+                if scriptContent and scriptContent ~= "" then
+                    loadstring(scriptContent)()
+                else
+                    error("Failed to load script from URL: " .. url)
+                end
+            end)
+            if not success then
+                Rayfield:Notify({
+                    Title = "Error",
+                    Content = "Failed to execute script: " .. errorMessage,
+                    Duration = 5,
+                    Image = 4483345998,
+                })
+            end
+        end
+    })
+end
+
+addButton(TabAllGames, "Arsenal", "https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt")
+addButton(TabAllGames, "Car Crusher2", "https://raw.githubusercontent.com/SenhorLDS/ProjectLDSHUB/main/OfficialScript")
+addButton(TabAllGames, "A Dusty Trip", "https://raw.githubusercontent.com/artemy133563/Utilities/main/ADustyTrip")
+addButton(TabAllGames, "Build a Bridge", "https://raw.githubusercontent.com/ProjectpopCat/ywxoscripts/main/BuildABridgeSim2931.lua")
+addButton(TabAllGames, "Fruit Battlegrounds", "https://raw.githubusercontent.com/alan11ago/Hub/refs/heads/main/ImpHub.lua")
+addButton(TabAllGames, "Pets Go", "https://api.luarmor.net/files/v3/loaders/2529a5f9dfddd5523ca4e22f21cceffa.lua")
+addButton(TabAllGames, "Evade2", "https://raw.githubusercontent.com/zReal-King/Evade/main/Main.lua")
+addButton(TabAllGames, "BloxFruits (OP)", "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI")
+addButton(TabAllGames, "Da Hood", "https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002")
+addButton(TabAllGames, "Fling Things and People", "https://raw.githubusercontent.com/BlizTBr/scripts/main/FTAP.lua")
+addButton(TabAllGames, "3008", "https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/SkyHub.txt")
+addButton(TabAllGames, "Item Asylum", "https://pastebin.com/raw/TwXsMX4S")
+addButton(TabAllGames, "Doors", "https://raw.githubusercontent.com/Yumiara/Python/main/Main.lua")
+addButton(TabAllGames, "PS99", "https://zaphub.xyz/Exec")
+addButton(TabAllGames, "Jailbreak", "https://api.luarmor.net/files/v3/loaders/730854e5b6499ee91deb1080e8e12ae3.lua")
+addButton(TabAllGames, "TSB", "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua")
+
+Rayfield:LoadConfiguration()
