@@ -1,58 +1,133 @@
--- Main GUI using Rayfield
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Function to create a simple password verification GUI
+local function createPasswordGui()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "PasswordGui"
+    screenGui.Parent = game.CoreGui
 
-local Window = Rayfield:CreateWindow({
-    Name = "CodeWare Hub",
-    LoadingTitle = "Loading CodeWare Hub...",
-    LoadingSubtitle = "Please wait",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "CodeWareHub",
-        FileName = "HubConfig"
-    }
-})
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 350, 0, 250)
+    frame.Position = UDim2.new(0.5, -175, 0.5, -125)
+    frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    frame.Parent = screenGui
 
-local TabAllGames = Window:CreateTab("All Games", 4483345998)
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.Parent = frame
+    uiCorner.CornerRadius = UDim.new(0, 10)
 
-local function addButton(tab, name, url)
-    tab:CreateButton({
-        Name = name,
-        Callback = function()
-            local success, errorMessage = pcall(function()
-                local scriptContent = game:HttpGet(url)
-                if scriptContent and scriptContent ~= "" then
-                    loadstring(scriptContent)()
-                else
-                    error("Failed to load script from URL: " .. url)
-                end
-            end)
-            if not success then
-                Rayfield:Notify({
-                    Title = "Error",
-                    Content = "Failed to execute script: " .. errorMessage,
-                    Duration = 5,
-                    Image = 4483345998,
-                })
-            end
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Text = "Enter Password"
+    titleLabel.Size = UDim2.new(1, 0, 0, 50)
+    titleLabel.Position = UDim2.new(0, 0, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.Font = Enum.Font.GothamSemibold
+    titleLabel.TextSize = 24
+    titleLabel.Parent = frame
+
+    local statusLabel = Instance.new("TextLabel")
+    statusLabel.Text = "Status: Active"
+    statusLabel.Size = UDim2.new(0.8, 0, 0, 30)
+    statusLabel.Position = UDim2.new(0.1, 0, 0.25, 0)
+    statusLabel.BackgroundTransparency = 1
+    statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    statusLabel.Font = Enum.Font.Gotham
+    statusLabel.TextSize = 14
+    statusLabel.Parent = frame
+
+    local executorLabel = Instance.new("TextLabel")
+    executorLabel.Text = "Executor: Checking..."
+    executorLabel.Size = UDim2.new(0.8, 0, 0, 30)
+    executorLabel.Position = UDim2.new(0.1, 0, 0.35, 0)
+    executorLabel.BackgroundTransparency = 1
+    executorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    executorLabel.Font = Enum.Font.Gotham
+    executorLabel.TextSize = 14
+    executorLabel.Parent = frame
+
+    local platformLabel = Instance.new("TextLabel")
+    platformLabel.Text = "Platform: Checking..."
+    platformLabel.Size = UDim2.new(0.8, 0, 0, 30)
+    platformLabel.Position = UDim2.new(0.1, 0, 0.45, 0)
+    platformLabel.BackgroundTransparency = 1
+    platformLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    platformLabel.Font = Enum.Font.Gotham
+    platformLabel.TextSize = 14
+    platformLabel.Parent = frame
+
+    local passwordBox = Instance.new("TextBox")
+    passwordBox.Size = UDim2.new(0.8, 0, 0, 50)
+    passwordBox.Position = UDim2.new(0.1, 0, 0.6, 0)
+    passwordBox.PlaceholderText = "Password"
+    passwordBox.Text = ""
+    passwordBox.ClearTextOnFocus = false
+    passwordBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    passwordBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    passwordBox.Font = Enum.Font.GothamSemibold
+    passwordBox.TextSize = 18
+    passwordBox.Parent = frame
+
+    local uiCornerBox = Instance.new("UICorner")
+    uiCornerBox.Parent = passwordBox
+    uiCornerBox.CornerRadius = UDim.new(0, 10)
+
+    local submitButton = Instance.new("TextButton")
+    submitButton.Size = UDim2.new(0.8, 0, 0, 50)
+    submitButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+    submitButton.Text = "Submit"
+    submitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    submitButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    submitButton.Font = Enum.Font.GothamSemibold
+    submitButton.TextSize = 18
+    submitButton.Parent = frame
+
+    local uiCornerButton = Instance.new("UICorner")
+    uiCornerButton.Parent = submitButton
+    uiCornerButton.CornerRadius = UDim.new(0, 10)
+
+    local function detectExecutor()
+        local executor
+        if syn then
+            executor = "Synapse X"
+        elseif Krnl then
+            executor = "Krnl"
+        elseif getexecutorname then
+            executor = getexecutorname()
+        else
+            executor = "Unknown"
         end
-    })
+        return executor
+    end
+
+    local function detectPlatform()
+        local platform
+        if game:GetService("UserInputService").TouchEnabled then
+            platform = "Mobile"
+        elseif game:GetService("UserInputService").KeyboardEnabled then
+            platform = "PC"
+        elseif game:GetService("UserInputService").GamepadEnabled then
+            platform = "Console"
+        else
+            platform = "Unknown"
+        end
+        return platform
+    end
+
+    executorLabel.Text = "Executor: " .. detectExecutor()
+    platformLabel.Text = "Platform: " .. detectPlatform()
+
+    submitButton.MouseButton1Click:Connect(function()
+        if passwordBox.Text == "CodeWareOnTop!" then
+            screenGui:Destroy()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/UalfTV/CodeWareHub/refs/heads/main/CodeWareScript"))() -- Carga el hub desde un loadstring
+        else
+            passwordBox.TextColor3 = Color3.fromRGB(255, 88, 88)
+            passwordBox.Text = "Access Denied"
+            wait(2)
+            passwordBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+            passwordBox.Text = ""
+        end
+    end)
 end
 
-addButton(TabAllGames, "Arsenal", "https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt")
-addButton(TabAllGames, "Car Crusher2", "https://raw.githubusercontent.com/SenhorLDS/ProjectLDSHUB/main/OfficialScript")
-addButton(TabAllGames, "A Dusty Trip", "https://raw.githubusercontent.com/artemy133563/Utilities/main/ADustyTrip")
-addButton(TabAllGames, "Build a Bridge", "https://raw.githubusercontent.com/ProjectpopCat/ywxoscripts/main/BuildABridgeSim2931.lua")
-addButton(TabAllGames, "Fruit Battlegrounds", "https://raw.githubusercontent.com/alan11ago/Hub/refs/heads/main/ImpHub.lua")
-addButton(TabAllGames, "Pets Go", "https://api.luarmor.net/files/v3/loaders/2529a5f9dfddd5523ca4e22f21cceffa.lua")
-addButton(TabAllGames, "Evade2", "https://raw.githubusercontent.com/zReal-King/Evade/main/Main.lua")
-addButton(TabAllGames, "BloxFruits (OP)", "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI")
-addButton(TabAllGames, "Da Hood", "https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002")
-addButton(TabAllGames, "Fling Things and People", "https://raw.githubusercontent.com/BlizTBr/scripts/main/FTAP.lua")
-addButton(TabAllGames, "3008", "https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/SkyHub.txt")
-addButton(TabAllGames, "Item Asylum", "https://pastebin.com/raw/TwXsMX4S")
-addButton(TabAllGames, "Doors", "https://raw.githubusercontent.com/Yumiara/Python/main/Main.lua")
-addButton(TabAllGames, "PS99", "https://zaphub.xyz/Exec")
-addButton(TabAllGames, "Jailbreak", "https://api.luarmor.net/files/v3/loaders/730854e5b6499ee91deb1080e8e12ae3.lua")
-addButton(TabAllGames, "TSB", "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua")
-
-Rayfield:LoadConfiguration()
+-- Load the password verification GUI initially
+createPasswordGui()
