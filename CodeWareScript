@@ -136,7 +136,7 @@ local function createPasswordGui()
             -- Destruir la GUI del loader
             screenGui:Destroy()
             -- Cargar el hub desde un loadstring
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/UalfTV/CodeWareHub/refs/heads/main/CodeWareScript"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/UalfTV/CodeWareHub/refs/heads/main/CodeWareHub"))()
         else
             -- Mostrar mensaje de acceso denegado
             passwordBox.TextColor3 = Color3.fromRGB(255, 88, 88)
