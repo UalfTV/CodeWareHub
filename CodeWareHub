@@ -56,7 +56,8 @@ local scripts = {
     {name = "FUNKY FRIDAY", url = "https://pastebin.com/raw/dcyuEgyK"},
     {name = "NINJA LEGENDS (2 checkpoint auth)", url = "https://rawscripts.net/raw/Ninja-Legends-BT-Project-9463"},
     {name = "Blox Fruits (another)", url = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"},
-    {name = "Jailbreak v2 (takes a lil too much 😭🙏downloading assets)", url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua"}
+    {name = "Jailbreak v2 (takes a lil too much 😭🙏downloading assets)", url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua"},
+    {name = "QuizBot", url = "https://pastebin.com/raw/3Dqaz6xL"}
 }
 
 for _, script in ipairs(scripts) do
