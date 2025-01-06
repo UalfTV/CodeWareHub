@@ -1,58 +1,138 @@
--- Main GUI using Rayfield
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local startTime = tick()
 
-local Window = Rayfield:CreateWindow({
-    Name = "CodeWare Hub",
-    LoadingTitle = "Loading CodeWare Hub...",
-    LoadingSubtitle = "Please wait",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "CodeWareHub",
-        FileName = "HubConfig"
-    }
-})
+local Luxtl = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Luxware-UI-Library/main/Source.lua"))()
 
-local TabAllGames = Window:CreateTab("All Games", 4483345998)
+local Luxt = Luxtl.CreateWindow("zykhub.v2", 6105620301)
 
-local function addButton(tab, name, url)
-    tab:CreateButton({
-        Name = name,
-        Callback = function()
-            local success, errorMessage = pcall(function()
-                local scriptContent = game:HttpGet(url)
-                if scriptContent and scriptContent ~= "" then
-                    loadstring(scriptContent)()
-                else
-                    error("Failed to load script from URL: " .. url)
-                end
-            end)
-            if not success then
-                Rayfield:Notify({
-                    Title = "Error",
-                    Content = "Failed to execute script: " .. errorMessage,
-                    Duration = 5,
-                    Image = 4483345998,
-                })
-            end
-        end
+local mainTab = Luxt:Tab("All Games", 4483345998)
+local funAndMiscTab = Luxt:Tab("Fun and Misc", 4483345998)
+
+local allGamesSection = mainTab:Section("Scripts")
+
+local function createNotification(title, text, duration)
+    local StarterGui = game:GetService("StarterGui")
+    StarterGui:SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = duration
     })
 end
 
-addButton(TabAllGames, "Arsenal", "https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt")
-addButton(TabAllGames, "Car Crusher2", "https://raw.githubusercontent.com/SenhorLDS/ProjectLDSHUB/main/OfficialScript")
-addButton(TabAllGames, "A Dusty Trip", "https://raw.githubusercontent.com/artemy133563/Utilities/main/ADustyTrip")
-addButton(TabAllGames, "Build a Bridge", "https://raw.githubusercontent.com/ProjectpopCat/ywxoscripts/main/BuildABridgeSim2931.lua")
-addButton(TabAllGames, "Fruit Battlegrounds", "https://raw.githubusercontent.com/alan11ago/Hub/refs/heads/main/ImpHub.lua")
-addButton(TabAllGames, "Pets Go", "https://api.luarmor.net/files/v3/loaders/2529a5f9dfddd5523ca4e22f21cceffa.lua")
-addButton(TabAllGames, "Evade2", "https://raw.githubusercontent.com/zReal-King/Evade/main/Main.lua")
-addButton(TabAllGames, "BloxFruits (OP)", "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI")
-addButton(TabAllGames, "Da Hood", "https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002")
-addButton(TabAllGames, "Fling Things and People", "https://raw.githubusercontent.com/BlizTBr/scripts/main/FTAP.lua")
-addButton(TabAllGames, "3008 (keyless)", "https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/SCP3008.py")
-addButton(TabAllGames, "Item Asylum", "https://pastebin.com/raw/TwXsMX4S")
-addButton(TabAllGames, "Doors", "https://raw.githubusercontent.com/Yumiara/Python/main/Main.lua")
-addButton(TabAllGames, "PS99", "https://zaphub.xyz/Exec")
-addButton(TabAllGames, "Jailbreak", "https://api.luarmor.net/files/v3/loaders/730854e5b6499ee91deb1080e8e12ae3.lua")
-addButton(TabAllGames, "TSB", "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua")
+local function addScriptButton(section, name, url)
+    section:Button(name, function()
+        local success, errorMessage = pcall(function()
+            local scriptContent = game:HttpGet(url)
+            if scriptContent and scriptContent ~= "" then
+                loadstring(scriptContent)()
+                createNotification("Script Loaded", name .. " loaded successfully.", 5)
+            else
+                error("Failed to load script from URL: " .. url)
+            end
+        end)
+        if not success then
+            createNotification("Error", "Failed to execute script: " .. errorMessage, 5)
+        end
+    end)
+end
 
-Rayfield:LoadConfiguration()
+local scripts = {
+    {name = "ARSENAL", url = "https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua"},
+    {name = "Car Crusher2", url = "https://raw.githubusercontent.com/SenhorLDS/ProjectLDSHUB/main/OfficialScript"},
+    {name = "A Dusty Trip (KEY)", url = "https://raw.githubusercontent.com/artemy133563/Utilities/main/ADustyTrip"},
+    {name = "Build a Bridge", url = "https://raw.githubusercontent.com/ProjectpopCat/ywxoscripts/main/BuildABridgeSim2931.lua"},
+    {name = "Fruit Battlegrounds", url = "https://raw.githubusercontent.com/alan11ago/Hub/refs/heads/main/ImpHub.lua"},
+    {name = "pets go (should work)", url = "https://raw.githubusercontent.com/TitaniumScripts/PetsGo/refs/heads/main/script"},
+    {name = "Evade2 (KEY)", url = "https://raw.githubusercontent.com/zReal-King/Evade/main/Main.lua"},
+    {name = "BloxFruits DONT USE FLINTLOCK u will get ban.", url = "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"},
+    {name = "Da Hood", url = "https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002"},
+    {name = "Fling Things and People (keyless)", url = "https://raw.githubusercontent.com/biel99lol/My-scripts/refs/heads/main/Ninja%20hub%20(FTAP)%20update"},
+    {name = "3008 (keyless)", url = "https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/SCP3008.py"},
+    {name = "Item Asylum (NOT WORKING)", url = "https://pastebin.com/raw/TwXsMX4S"},
+    {name = "Doors (keyless but shitty)", url = "https://raw.githubusercontent.com/Yumiara/Python/main/Main.lua"},
+    {name = "DOORS, 3008, Rooms & Doors, BABFT, Pressure, Fisch, Grace, MM2, Universal (MSPaint v3 may work) (KEY)", url = "https://api.luarmor.net/files/v3/loaders/002c19202c9946e6047b0c6e0ad51f84.lua"},
+    {name = "PS99 (KEY)", url = "https://zaphub.xyz/Exec"},
+    {name = "Jailbreak", url = "https://api.luarmor.net/files/v3/loaders/730854e5b6499ee91deb1080e8e12ae3.lua"},
+    {name = "TSB", url = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"},
+    {name = "FUNKY FRIDAY", url = "https://pastebin.com/raw/dcyuEgyK"},
+    {name = "NINJA LEGENDS (2 checkpoint auth)", url = "https://rawscripts.net/raw/Ninja-Legends-BT-Project-9463"},
+    {name = "Blox Fruits (another)", url = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"},
+    {name = "Jailbreak v2 (takes a lil too much 😭🙏downloading assets)", url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua"}
+}
+
+for _, script in ipairs(scripts) do
+    addScriptButton(allGamesSection, script.name, script.url)
+end
+
+local funAndMiscSection = funAndMiscTab:Section("Utilities")
+
+funAndMiscSection:Button("Admin (works for almost all games)", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+funAndMiscSection:Button("Dex Explorer", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/UalfTV/CodeWareHub/refs/heads/main/dexexplorer(notmine)"))()
+end)
+
+funAndMiscSection:Button("Simple Spy by OSINT", function()
+    local settings = {
+        SaveDecompileLogs = true,
+        SaveScanLogs = true,
+        ScanForNewInstance = true,
+        InterceptUntilRan = true,
+        CursorOffset = -15,
+        PathToDump = {game.Players.LocalPlayer, game:GetService('ReplicatedStorage')}
+    }
+    _G.data = settings
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptSkiddie69/RemoteHook/refs/heads/main/SimpleSpyLite.lua'))()
+end)
+
+funAndMiscSection:Button("FE gale fighter (nothing needed)", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/XPGSMEw9"))()
+end)
+
+funAndMiscSection:Button("Uber Eats (visual)", function()
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local ChatService = game:GetService("Chat")
+
+    local messages = {
+        "AMIR: I deliver your food sir.",
+        "Good luck amir.",
+        "Im in mars, if u deliver the food in 1 sec ill give you 2 dolla dolla tip.",
+        "AMIR: 2 DOLLA DOLLA TIP🤑?",
+        "U cant do it in 1 sec.",
+        "AMIR: Sir i built different.",
+        "AMIR: Im flying at the speed of light",
+        "AMIR: Sir there is a problem, there is an alien",
+        "AMIR: sir i gave him bite of burger, we are friends now, im gonna call him george.",
+        "WHAT??",
+        "AMIR: im here sir",
+        "*gives 2 dolla dolla*",
+        "AMIR: YUPIEEE!"
+    }
+
+    local function sendChatMessage(message)
+        if player.Character then
+            ChatService:Chat(player.Character, message, Enum.ChatColor.Blue)
+        end
+    end
+
+    local function sendMessages()
+        for i, message in ipairs(messages) do
+            wait(2)
+            sendChatMessage(message)
+        end
+    end
+
+    sendMessages()
+end)
+
+createNotification("hub Loaded correctly!", "made by alan and zyzlo_", 10)
+
+local function printSuccessMessage()
+    local loadTime = tick() - startTime
+    local successMessage = string.format("bub loaded in [%.6f] secs!", loadTime)
+    print(successMessage)
+end
+
+printSuccessMessage()
